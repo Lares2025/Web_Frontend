@@ -1,7 +1,7 @@
 <template>
   <div :style="Container">
     <div :style="LogoTitle">LARES</div>
-    <div :stye="LogoSub">BSSM - Logistics Autonomous Robot ERP System</div>
+    <div :style="LogoSub">BSSM - Logistics Autonomous Robot ERP System</div>
   </div>
 </template>
 
@@ -19,11 +19,17 @@ export default {
         height: "100vh",
       },
       LogoTitle: {
-        width: "241px",
         color: "#0C007B",
         fontSize: "60px",
         fontFamily: "GongGothicBold",
         fontWeight: "700",
+        wordWrap: "break-word",
+      },
+      LogoSub: {
+        color: "#0C007B",
+        fontSize: "10px",
+        fontFamily: "PretendardLight",
+        fontWeight: "300",
         wordWrap: "break-word",
       },
     };
