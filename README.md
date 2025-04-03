@@ -1,4 +1,4 @@
-# robot
+# Lares
 
 ## Project setup
 ```
