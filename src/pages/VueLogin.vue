@@ -6,13 +6,13 @@
     </div>
     <div :style="LoginContain">
       <div>회원 가입</div>
-      <div>로그인</div>
+      <div :style="Login">로그인</div>
     </div>
     <div :style="InputContain">
-      <input placeholder="이름" :style="LoginInput" class="logininput" />
-      <input placeholder="아이디" :style="LoginInput" class="logininput" />
-      <input placeholder="비밀번호" :style="LoginInput" class="logininput" />
-      <input placeholder="주소" :style="LoginInput" class="logininput" />
+      <input placeholder="이름" :style="SiginInput" class="sigininput" />
+      <input placeholder="아이디" :style="SiginInput" class="sigininput" />
+      <input placeholder="비밀번호" :style="SiginInput" class="sigininput" />
+      <input placeholder="주소" :style="SiginInput" class="sigininput" />
     </div>
   </div>
 </template>
@@ -39,6 +39,9 @@ export default {
         display: "flex",
         flexDirection: "column",
       },
+      Login: {
+        color: "#CECCE5",
+      },
       LogoTitle: {
         color: "#0C007B",
         fontSize: "60px",
@@ -54,6 +57,13 @@ export default {
         wordWrap: "break-word",
         marginTop: "-10.2px",
       },
+      InputContain: {
+        position: "fixed",
+        top: "305px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+      },
       LoginContain: {
         position: "fixed",
         top: "241px",
@@ -64,7 +74,7 @@ export default {
         fontSize: "20px",
         fontFamily: "PretendardLight",
       },
-      LoginInput: {
+      SiginInput: {
         width: "428px",
         height: "24px",
         padding: "12px 10px", //위아래, 왼쪽오른쪽
@@ -73,13 +83,6 @@ export default {
         fontFamily: "PretendardThin",
         fontSize: "20px",
         backgroundColor: "#F6F6F6",
-      },
-      InputContain: {
-        position: "fixed",
-        top: "305px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
       },
     };
   },
@@ -93,7 +96,7 @@ body {
   padding: 0;
 }
 
-.logininput::placeholder {
+.sigininput::placeholder {
   font-family: Pretendard;
   font-weight: 100;
   font-size: 20px;
