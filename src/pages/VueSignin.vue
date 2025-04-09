@@ -5,8 +5,10 @@
       <div :style="LogoSub">BSSM - Logistics Autonomous Robot ERP System</div>
     </div>
     <div :style="LoginContain">
-      <div>회원 가입</div>
-      <div :style="Login">로그인</div>
+      <div @click="goToSignup" style="cursor: pointer">회원 가입</div>
+      <div @click="goToLogin" :style="Login" style="cursor: pointer">
+        로그인
+      </div>
     </div>
     <div :style="InputContain">
       <input placeholder="이름" :style="SigninInput" class="signininput" />
@@ -100,9 +102,17 @@ export default {
         color: "white",
         fontSize: "20px",
         fontFamily: "PretendardBold",
-        fontWeight: "700",
+        border: "none",
       },
     };
+  },
+  methods: {
+    goToSignup() {
+      this.$router.push("/Signin");
+    },
+    goToLogin() {
+      this.$router.push("/");
+    },
   },
 };
 </script>

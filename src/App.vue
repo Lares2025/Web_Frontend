@@ -1,17 +1,8 @@
 <template>
-  <VueLogin />
+  <router-view />
 </template>
 
-<script>
-import VueLogin from "./pages/VueLogin.vue";
-
-export default {
-  name: "App",
-  components: {
-    VueLogin,
-  },
-};
-</script>
+<script></script>
 
 <style>
 #app {
@@ -47,7 +38,7 @@ export default {
 
 @font-face {
   font-family: "PretendardThin";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardThin.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff")
     format("woff");
   font-weight: 100;
   font-style: normal;
@@ -55,7 +46,7 @@ export default {
 
 @font-face {
   font-family: "PretendardExtraLight";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardExtraLight.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraLight.woff")
     format("woff");
   font-weight: 200;
   font-style: normal;
@@ -63,7 +54,7 @@ export default {
 
 @font-face {
   font-family: "PretendardLight";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardLight.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff")
     format("woff");
   font-weight: 300;
   font-style: normal;
@@ -71,7 +62,7 @@ export default {
 
 @font-face {
   font-family: "PretendardRegular";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardRegular.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
     format("woff");
   font-weight: 400;
   font-style: normal;
@@ -79,7 +70,7 @@ export default {
 
 @font-face {
   font-family: "PretendardMedium";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardMedium.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff")
     format("woff");
   font-weight: 500;
   font-style: normal;
@@ -87,7 +78,7 @@ export default {
 
 @font-face {
   font-family: "PretendardSemiBold";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardSemiBold.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff")
     format("woff");
   font-weight: 600;
   font-style: normal;
@@ -95,7 +86,7 @@ export default {
 
 @font-face {
   font-family: "PretendardBold";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardBold.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff")
     format("woff");
   font-weight: 700;
   font-style: normal;
@@ -103,7 +94,7 @@ export default {
 
 @font-face {
   font-family: "PretendardExtraBold";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardExtraBold.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff")
     format("woff");
   font-weight: 800;
   font-style: normal;
@@ -111,7 +102,7 @@ export default {
 
 @font-face {
   font-family: "PretendardBlack";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/PretendardBlack.woff")
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff")
     format("woff");
   font-weight: 900;
   font-style: normal;
