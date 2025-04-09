@@ -21,7 +21,7 @@
       />
       <input placeholder="주소" :style="SigninInput" class="signininput" />
     </div>
-    <button :style="SigninButton">로그인</button>
+    <button :style="SigninButton">회원 가입</button>
   </div>
 </template>
 
