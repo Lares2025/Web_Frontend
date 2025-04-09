@@ -81,7 +81,7 @@ export default {
         padding: "12px 10px", //위아래, 왼쪽오른쪽
         border: "1px solid #818181",
         borderRadius: "10px",
-        fontFamily: "PretendardThin",
+        fontFamily: "PretendardLight",
         fontSize: "20px",
         backgroundColor: "#F6F6F6",
       },
