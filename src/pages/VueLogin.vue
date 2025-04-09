@@ -12,7 +12,12 @@
     </div>
     <div :style="InputContain">
       <input placeholder="아이디" :style="SigninInput" class="signininput" />
-      <input placeholder="비밀번호" :style="SigninInput" class="signininput" />
+      <input
+        placeholder="비밀번호"
+        type="password"
+        :style="SigninInput"
+        class="signininput"
+      />
     </div>
     <button :style="SigninButton">로그인</button>
   </div>
