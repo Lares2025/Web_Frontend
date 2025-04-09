@@ -9,11 +9,12 @@
       <div :style="Login">로그인</div>
     </div>
     <div :style="InputContain">
-      <input placeholder="이름" :style="SiginInput" class="sigininput" />
-      <input placeholder="아이디" :style="SiginInput" class="sigininput" />
-      <input placeholder="비밀번호" :style="SiginInput" class="sigininput" />
-      <input placeholder="주소" :style="SiginInput" class="sigininput" />
+      <input placeholder="이름" :style="SigninInput" class="signininput" />
+      <input placeholder="아이디" :style="SigninInput" class="signininput" />
+      <input placeholder="비밀번호" :style="SigninInput" class="signininput" />
+      <input placeholder="주소" :style="SigninInput" class="signininput" />
     </div>
+    <button :style="SigninButton">로그인</button>
   </div>
 </template>
 
@@ -35,7 +36,7 @@ export default {
       },
       LogoContain: {
         position: "fixed",
-        top: "85px",
+        top: "70px",
         display: "flex",
         flexDirection: "column",
       },
@@ -59,14 +60,14 @@ export default {
       },
       InputContain: {
         position: "fixed",
-        top: "305px",
+        top: "280px",
         display: "flex",
         flexDirection: "column",
         gap: "20px",
       },
       LoginContain: {
         position: "fixed",
-        top: "241px",
+        top: "210px",
         display: "flex",
         flexDirection: "row",
         gap: "40px",
@@ -74,7 +75,7 @@ export default {
         fontSize: "20px",
         fontFamily: "PretendardLight",
       },
-      SiginInput: {
+      SigninInput: {
         width: "428px",
         height: "24px",
         padding: "12px 10px", //위아래, 왼쪽오른쪽
@@ -83,6 +84,18 @@ export default {
         fontFamily: "PretendardThin",
         fontSize: "20px",
         backgroundColor: "#F6F6F6",
+      },
+      SigninButton: {
+        position: "fixed",
+        top: "590px",
+        width: "448px",
+        height: "48px",
+        borderRadius: "12px",
+        backgroundColor: "#0C007B",
+        color: "white",
+        fontSize: "20px",
+        fontFamily: "PretendardBold",
+        fontWeight: "700",
       },
     };
   },
@@ -96,7 +109,7 @@ body {
   padding: 0;
 }
 
-.sigininput::placeholder {
+.signininput::placeholder {
   font-family: Pretendard;
   font-weight: 100;
   font-size: 20px;

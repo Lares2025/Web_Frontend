@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import VueLogin from "./pages/VueLogin.vue";
+import VueLogin from "./pages/VueSignin.vue";
 
 export default {
   name: "App",
