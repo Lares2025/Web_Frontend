@@ -9,7 +9,7 @@
         </div>
         <div :style="Connect">
           <div :style="Name">LARES 01</div>
-          <button :style="ConnectBtn">연결</button>
+          <button :style="ConnectBtn">{{ buttonText }}</button>
         </div>
         <div :style="Address">
           <input
@@ -112,15 +112,6 @@ export default {
         fontSize: "28px",
         fontFamily: "GongGothicBold",
       },
-      ConnectBtn: {
-        padding: "10px 22px",
-        border: "none",
-        borderRadius: "6px",
-        backgroundColor: "#818181",
-        color: "#C5C5C5",
-        fontSize: "12px",
-        fontFamily: "PretendardBold",
-      },
       Address: {
         display: "flex",
         gap: "10px",
@@ -135,7 +126,6 @@ export default {
         borderRadius: "10px",
         fontSize: "20px",
         fontFamily: "PretendardLight",
-        color: "#818181",
         backgroundColor: "#F6F6F6",
       },
       AddressDot: {
@@ -148,6 +138,30 @@ export default {
       address3: "",
       address4: "",
     };
+  },
+  computed: {
+    isAddressComplete() {
+      return (
+        this.address1 !== "" &&
+        this.address2 !== "" &&
+        this.address3 !== "" &&
+        this.address4 !== ""
+      );
+    },
+    buttonText() {
+      return this.isAddressComplete ? "취소" : "연결";
+    },
+    ConnectBtn() {
+      return {
+        padding: "10px 22px",
+        border: "none",
+        borderRadius: "6px",
+        backgroundColor: this.isAddressComplete ? "#0C007B" : "#818181",
+        color: this.isAddressComplete ? "white" : "#C5C5C5",
+        fontSize: "12px",
+        fontFamily: "PretendardBold",
+      };
+    },
   },
   methods: {
     onInput(field, event) {
