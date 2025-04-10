@@ -39,7 +39,7 @@ export default {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
-        aliginItems: "center",
+        alignItems: "center",
       },
       LogoContain: {
         position: "fixed",
@@ -54,15 +54,11 @@ export default {
         color: "#0C007B",
         fontSize: "60px",
         fontFamily: "GongGothicBold",
-        fontWeight: "700",
-        wordWrap: "break-word",
       },
       LogoSub: {
         color: "#0C007B",
         fontSize: "10px",
         fontFamily: "PretendardLight",
-        fontWeight: "300",
-        wordWrap: "break-word",
         marginTop: "-10.2px",
       },
       InputContain: {
