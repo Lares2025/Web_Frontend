@@ -4,12 +4,14 @@
       <img :src="Img" alt="robotimg" :style="RobotImg" />
       <div>
         <div :style="Status">
-          <div :style="StatusDot" />
-          <div :style="StatusText">Disconnect</div>
+          <div :style="computedStatusDot" />
+          <div :style="StatusText">{{ statusText }}</div>
         </div>
         <div :style="Connect">
           <div :style="Name">LARES 01</div>
-          <button :style="ConnectBtn">{{ buttonText }}</button>
+          <button :style="ConnectBtn" @click="toggleConnection">
+            {{ buttonText }}
+          </button>
         </div>
         <div :style="Address">
           <input
@@ -90,12 +92,6 @@ export default {
         flexDirection: "row",
         gap: "6px",
       },
-      StatusDot: {
-        width: "12px",
-        height: "12px",
-        borderRadius: "300px",
-        backgroundColor: "#D70000",
-      },
       StatusText: {
         color: "black",
         fontSize: "18px",
@@ -137,6 +133,7 @@ export default {
       address2: "",
       address3: "",
       address4: "",
+      connected: false,
     };
   },
   computed: {
@@ -149,23 +146,53 @@ export default {
       );
     },
     buttonText() {
-      return this.isAddressComplete ? "취소" : "연결";
+      if (!this.isAddressComplete) return "연결";
+      return this.connected ? "취소" : "연결";
     },
     ConnectBtn() {
+      if (!this.isAddressComplete) {
+        return {
+          padding: "10px 22px",
+          border: "none",
+          borderRadius: "6px",
+          backgroundColor: "#818181",
+          color: "#C5C5C5",
+          fontSize: "12px",
+          fontFamily: "PretendardBold",
+          cursor: "not-allowed",
+        };
+      }
+
       return {
         padding: "10px 22px",
         border: "none",
         borderRadius: "6px",
-        backgroundColor: this.isAddressComplete ? "#0C007B" : "#818181",
-        color: this.isAddressComplete ? "white" : "#C5C5C5",
+        backgroundColor: this.connected ? "#F6F6F6" : "#0C007B",
+        color: this.connected ? "#0C007B" : "white",
         fontSize: "12px",
         fontFamily: "PretendardBold",
+        cursor: "pointer",
       };
+    },
+    computedStatusDot() {
+      return {
+        width: "12px",
+        height: "12px",
+        borderRadius: "300px",
+        backgroundColor: this.connected ? "#00EA33" : "#D70000",
+      };
+    },
+    statusText() {
+      return this.connected ? "Connected" : "Disconnect";
     },
   },
   methods: {
     onInput(field, event) {
       this[field] = event.target.value.replace(/[^0-9]/g, "").slice(0, 3);
+    },
+    toggleConnection() {
+      if (!this.isAddressComplete) return;
+      this.connected = !this.connected;
     },
   },
 };
