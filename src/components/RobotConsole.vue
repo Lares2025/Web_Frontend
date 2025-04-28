@@ -53,9 +53,9 @@ export default {
         backgroundColor: "#C5C5C5",
       },
       DataArray: {
-        width: "130px",
+        width: "175px",
         height: "39px",
-        padding: "12px 10px",
+        padding: "10px 10px",
         border: "1px solid #CECCE5",
         borderRadius: "10px",
         fontFamily: "PretendardThin",
