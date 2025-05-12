@@ -82,6 +82,11 @@
     <!-- 웹캠 박스 -->
     <div :style="containerRight">
       <div :style="connectBoxRight">
+        <div :style="box3">
+          <button :style="actionBtn">DC 모터 동작 확인</button>
+          <button :style="actionBtn">전자석 모듈 동작 확인</button>
+          <button :style="actionBtn">카메라 동작 확인</button>
+        </div>
         <video ref="webcam" autoplay playsinline :style="webcamStyle"></video>
       </div>
     </div>
@@ -227,8 +232,6 @@ export default {
       },
       connectBoxRight: {
         position: "fixed",
-        display: "flex",
-        gap: "30px",
         width: "612px",
         height: "318px",
         border: "1px solid #CECCE5",
@@ -239,6 +242,9 @@ export default {
         height: "100%",
         borderRadius: "10px",
         objectFit: "cover",
+      },
+      box3: {
+        position: "absolute",
       },
     };
   },
@@ -322,6 +328,20 @@ export default {
         width: "100px",
         height: "39px",
         padding: "10px 22px",
+        borderRadius: "8px",
+        border: "none",
+        fontFamily: "PretendardBold",
+        fontSize: "12px",
+        color: this.connected ? "#FFFFFF" : "#C5C5C5",
+        backgroundColor: this.connected ? "#0C007B" : "#818181",
+      };
+    },
+    actionBtn() {
+      return {
+        width: "150px",
+        height: "39px",
+        padding: "10px 22px",
+        margin: "20px",
         borderRadius: "8px",
         border: "none",
         fontFamily: "PretendardBold",
