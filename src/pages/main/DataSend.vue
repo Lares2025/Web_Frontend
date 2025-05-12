@@ -71,7 +71,7 @@
                 <option value="up">오름차순</option>
                 <option value="down">내림차순</option>
               </select>
-              <button>제어 전송</button>
+              <button :style="sendBtn">제어 전송</button>
             </div>
           </div>
           <div :style="line" />
@@ -81,7 +81,9 @@
 
     <!-- 웹캠 박스 -->
     <div :style="containerRight">
-      <div :style="connectBoxRight"></div>
+      <div :style="connectBoxRight">
+        <video ref="webcam" autoplay playsinline :style="webcamStyle"></video>
+      </div>
     </div>
   </div>
 </template>
@@ -233,9 +235,16 @@ export default {
         border: "1px solid #818181",
         borderRadius: "15px",
       },
+      webcamStyle: {
+        width: "100%",
+        height: "100%",
+        borderRadius: "10px",
+        objectFit: "cover",
+      },
     };
   },
   computed: {
+    // 연결 여부 박스
     isAddressComplete() {
       return (
         this.address1 !== "" &&
@@ -284,6 +293,7 @@ export default {
     statusText() {
       return this.connected ? "Connect" : "Disconnect";
     },
+    // 콘솔 박스
     dataNumber() {
       return {
         width: "80px",
@@ -308,7 +318,20 @@ export default {
         fontSize: "12px",
         color: "#818181",
         backgroundColor: this.connected ? "#F6F6F6" : "#C5C5C5",
-        margin: "0px 280px 0px 0px",
+        margin: "0px 250px 0px 0px",
+      };
+    },
+    sendBtn() {
+      return {
+        width: "100px",
+        height: "39px",
+        padding: "10px 22px",
+        borderRadius: "8px",
+        border: "none",
+        fontFamily: "PretendardBold",
+        fontSize: "12px",
+        color: this.connected ? "#FFFFFF" : "#C5C5C5",
+        backgroundColor: this.connected ? "#0C007B" : "#818181",
       };
     },
   },
@@ -320,6 +343,19 @@ export default {
       if (!this.isAddressComplete) return;
       this.connected = !this.connected;
     },
+    startWebcam() {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          this.$refs.webcam.srcObject = stream;
+        })
+        .catch((err) => {
+          console.error("웹캠 접근 실패:", err);
+        });
+    },
+  },
+  mounted() {
+    this.startWebcam();
   },
 };
 </script>
