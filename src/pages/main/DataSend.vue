@@ -229,10 +229,9 @@ export default {
         position: "fixed",
         display: "flex",
         gap: "30px",
-        width: "492px",
-        height: "278px",
-        padding: "20px 60px",
-        border: "1px solid #818181",
+        width: "612px",
+        height: "318px",
+        border: "1px solid #CECCE5",
         borderRadius: "15px",
       },
       webcamStyle: {
@@ -244,7 +243,6 @@ export default {
     };
   },
   computed: {
-    // 연결 여부 박스
     isAddressComplete() {
       return (
         this.address1 !== "" &&
@@ -270,7 +268,6 @@ export default {
           cursor: "not-allowed",
         };
       }
-
       return {
         padding: "10px 22px",
         border: "none",
@@ -293,7 +290,6 @@ export default {
     statusText() {
       return this.connected ? "Connect" : "Disconnect";
     },
-    // 콘솔 박스
     dataNumber() {
       return {
         width: "80px",
@@ -353,9 +349,23 @@ export default {
           console.error("웹캠 접근 실패:", err);
         });
     },
+    stopWebcam() {
+      const stream = this.$refs.webcam?.srcObject;
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        this.$refs.webcam.srcObject = null;
+      }
+    },
   },
-  mounted() {
-    this.startWebcam();
+  mounted() {},
+  watch: {
+    connected(newVal) {
+      if (newVal) {
+        this.startWebcam();
+      } else {
+        this.stopWebcam();
+      }
+    },
   },
 };
 </script>
