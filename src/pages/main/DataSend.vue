@@ -303,9 +303,9 @@ export default {
         padding: "12px 10px",
         border: "1px solid #CECCE5",
         borderRadius: "10px",
-        fontFamily: "PretendardThin",
+        fontFamily: "PretendardRegular",
         fontSize: "12px",
-        color: "#818181",
+        color: this.connected ? "#2C2C2C" : "#818181",
         backgroundColor: this.connected ? "#F6F6F6" : "#C5C5C5",
       };
     },
@@ -318,7 +318,7 @@ export default {
         borderRadius: "10px",
         fontFamily: "PretendardThin",
         fontSize: "12px",
-        color: "#818181",
+        color: this.connected ? "#2C2C2C" : "#818181",
         backgroundColor: this.connected ? "#F6F6F6" : "#C5C5C5",
         margin: "0px 250px 0px 0px",
       };
@@ -389,3 +389,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+input::placeholder {
+  color: #818181;
+  font-family: "PretendardThin";
+}
+</style>
