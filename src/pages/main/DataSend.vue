@@ -103,7 +103,7 @@ export default {
         top: 0,
         left: 0,
         right: 0,
-        bottom: "250px",
+        bottom: "320px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -115,7 +115,7 @@ export default {
         width: "492px",
         height: "124px",
         padding: "60px",
-        border: "1px solid #818181",
+        border: "1px solid #CECCE5",
         borderRadius: "15px",
       },
       Img: require("@/assets/robot.svg"),
@@ -175,7 +175,7 @@ export default {
       // 콘솔 박스
       containerMiddle: {
         position: "absolute",
-        top: "380px",
+        top: "370px",
         left: 0,
         right: "640px",
         bottom: 0,
@@ -190,7 +190,7 @@ export default {
         width: "572px",
         height: "278px",
         padding: "20px",
-        border: "1px solid #818181",
+        border: "1px solid #CECCE5",
         borderRadius: "15px",
       },
       contain: {
@@ -222,7 +222,7 @@ export default {
       // 웹캠 박스
       containerRight: {
         position: "absolute",
-        top: "380px",
+        top: "370px",
         left: "640px",
         right: 0,
         bottom: 0,

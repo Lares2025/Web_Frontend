@@ -1,5 +1,5 @@
 <template>
-  <VueHeader></VueHeader>
+  <VueHeader v-if="showHeader" />
   <router-view />
 </template>
 
@@ -9,6 +9,12 @@ import VueHeader from "./components/common/VueHeader.vue";
 export default {
   name: "App",
   components: { VueHeader },
+  computed: {
+    showHeader() {
+      const noHeaderRoutes = ["/", "/Signin"];
+      return !noHeaderRoutes.includes(this.$route.path);
+    },
+  },
 };
 </script>
 
