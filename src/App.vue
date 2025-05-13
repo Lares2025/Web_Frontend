@@ -1,8 +1,16 @@
 <template>
+  <VueHeader></VueHeader>
   <router-view />
 </template>
 
-<script></script>
+<script>
+import VueHeader from "./components/common/VueHeader.vue";
+
+export default {
+  name: "App",
+  components: { VueHeader },
+};
+</script>
 
 <style>
 #app {
