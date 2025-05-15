@@ -103,7 +103,7 @@ export default {
         top: 0,
         left: 0,
         right: 0,
-        bottom: "320px",
+        bottom: "250px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

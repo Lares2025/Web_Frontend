@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "../pages/VueLogin.vue";
 import Signin from "../pages/VueSignin.vue";
 import Send from "../pages/main/DataSend.vue";
+import Control from "../pages/main/ControlData.vue";
+import Deliver from "../pages/main/DeliverData.vue";
+import Etc from "../pages/main/EtcData.vue";
 
 const routes = [
   {
@@ -18,6 +21,21 @@ const routes = [
     path: "/Send",
     name: "Send",
     component: Send,
+  },
+  {
+    path: "/Control",
+    name: "Control",
+    component: Control,
+  },
+  {
+    path: "/Deliver",
+    name: "Deliver",
+    component: Deliver,
+  },
+  {
+    path: "/Etc",
+    name: "Etc",
+    component: Etc,
   },
 ];
 
