@@ -1,7 +1,9 @@
 <template>
   <div :style="Container">
     <div>
-      <button :style="Delete">삭제</button>
+      <div :style="Delete">
+        <button :style="DeleteBtn">삭제</button>
+      </div>
       <div :style="Contain">
         <div :style="Head">
           <div><input :style="Check" type="checkbox" /></div>
@@ -42,17 +44,19 @@ export default {
         alignItems: "center",
       },
       Delete: {
-        padding: "20px 45px",
+        display: "flex",
+        justifyContent: "end",
+      },
+      DeleteBtn: {
+        padding: "15px 35px",
         backgroundColor: "#818181",
         color: "#C5C5C5",
         border: "none",
         borderRadius: "12px",
-        fontSize: "20px",
-        fontFamily: "PretendardBold",
+        fontSize: "18px",
+        fontFamily: "PretendardMedium",
         marginTop: "80px",
         marginBottom: "30px",
-        display: "flex",
-        justifyContent: "end",
       },
       Line: {
         width: "1276px",
