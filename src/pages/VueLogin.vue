@@ -11,22 +11,34 @@
       <div @click="goToLogin" style="cursor: pointer">로그인</div>
     </div>
     <div :style="InputContain">
-      <input placeholder="아이디" :style="SigninInput" class="signininput" />
       <input
+        v-model="emptyBox.userId"
+        placeholder="아이디"
+        :style="SigninInput"
+        class="signininput"
+      />
+      <input
+        v-model="emptyBox.userPassword"
         placeholder="비밀번호"
         type="password"
         :style="SigninInput"
         class="signininput"
       />
     </div>
-    <button :style="SigninButton">로그인</button>
+    <button :style="SigninButton" @click="login">로그인</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
+      emptyBox: {
+        userId: "",
+        userPassword: "",
+      },
       Container: {
         position: "absolute",
         top: 0,
@@ -106,6 +118,18 @@ export default {
     },
     goToLogin() {
       this.$router.push("/");
+    },
+    login() {
+      axios
+        .post("/lares/api/login", this.emptyBox, {
+          headers: {},
+        })
+        .then((res) => {
+          console.log("성공", res);
+        })
+        .catch((res) => {
+          console.error("실패", res);
+        });
     },
   },
 };
