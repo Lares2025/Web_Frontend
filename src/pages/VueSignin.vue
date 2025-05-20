@@ -11,24 +11,56 @@
       </div>
     </div>
     <div :style="InputContain">
-      <input placeholder="이름" :style="SigninInput" class="signininput" />
-      <input placeholder="아이디" :style="SigninInput" class="signininput" />
       <input
+        v-model="emptyBox.userName"
+        placeholder="이름"
+        :style="SigninInput"
+        class="signininput"
+      />
+      <input
+        v-model="emptyBox.userId"
+        placeholder="아이디"
+        :style="SigninInput"
+        class="signininput"
+      />
+      <input
+        v-model="emptyBox.userPassword"
         placeholder="비밀번호"
         type="password"
         :style="SigninInput"
         class="signininput"
       />
-      <input placeholder="주소" :style="SigninInput" class="signininput" />
+      <input
+        v-model="emptyBox.userPasswordCheck"
+        placeholder="비밀번호 확인"
+        type="password"
+        :style="SigninInput"
+        class="signininput"
+      />
+      <input
+        v-model="emptyBox.userAddress"
+        placeholder="주소"
+        :style="SigninInput"
+        class="signininput"
+      />
     </div>
-    <button :style="SigninButton">회원 가입</button>
+    <button :style="SigninButton" @click="register">회원 가입</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
+      emptyBox: {
+        userName: "",
+        userId: "",
+        userPassword: "",
+        userPasswordCheck: "",
+        userAddress: "",
+      },
       Container: {
         position: "absolute",
         top: 0,
@@ -90,7 +122,7 @@ export default {
       },
       SigninButton: {
         position: "fixed",
-        top: "590px",
+        top: "630px",
         width: "448px",
         height: "48px",
         borderRadius: "12px",
@@ -108,6 +140,18 @@ export default {
     },
     goToLogin() {
       this.$router.push("/");
+    },
+    register() {
+      axios
+        .post("/lares/api/user/register", this.emptyBox, {
+          headers: {},
+        })
+        .then((res) => {
+          console.log("성공", res);
+        })
+        .catch((res) => {
+          console.error("실패", res);
+        });
     },
   },
 };
