@@ -15,14 +15,18 @@
           <div :style="Data">정렬 데이터 방식</div>
         </div>
         <div :style="Line" />
-        <div v-for="(robot, index) in robots" :key="index" :style="Body">
+        <div
+          v-for="(controlData, i) in data.data"
+          :key="`data${i}`"
+          :style="Body"
+        >
           <div><input :style="Check" type="checkbox" /></div>
-          <div :style="Data">{{ robot.id }}</div>
-          <div :style="Data">{{ robot.date }}</div>
-          <div :style="Data">{{ robot.manager }}</div>
-          <div :style="Data">{{ robot.robot }}</div>
-          <div :style="Data">{{ robot.count }}</div>
-          <div :style="Data">{{ robot.method }}</div>
+          <div :style="Data">{{ controlData.controlId }}</div>
+          <div :style="Data">{{ controlData.controlCreatedAt }}</div>
+          <div :style="Data">{{ controlData.userId }}</div>
+          <div :style="Data">{{ controlData.robotName }}</div>
+          <div :style="Data">{{ controlData.controlAmount }}</div>
+          <div :style="Data">{{ controlData.controlDirection }}</div>
         </div>
       </div>
     </div>
@@ -30,9 +34,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
+      data: {
+        data: [],
+      },
       Container: {
         position: "absolute",
         top: 0,
@@ -72,7 +81,7 @@ export default {
       Head: {
         height: "76px",
         display: "flex",
-        flexDirection: "robot",
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         fontFamily: "GongGothicMedium",
@@ -82,7 +91,7 @@ export default {
       Body: {
         height: "76px",
         display: "flex",
-        flexDirection: "robot",
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         fontFamily: "PretendardRegular",
@@ -94,33 +103,23 @@ export default {
         width: "20px",
         height: "20px",
       },
-      robots: [
-        {
-          id: "0001",
-          date: "20250312",
-          manager: "0.0_wji",
-          robot: "LARES1",
-          count: 6,
-          method: "ASC",
-        },
-        {
-          id: "0002",
-          date: "20250313",
-          manager: "0.0_kim",
-          robot: "LARES2",
-          count: 8,
-          method: "DESC",
-        },
-        {
-          id: "0003",
-          date: "20250314",
-          manager: "0.0_lee",
-          robot: "LARES3",
-          count: 5,
-          method: "ASC",
-        },
-      ],
     };
+  },
+  methods: {
+    controlData() {
+      axios
+        .get("/lares/api/control/")
+        .then((res) => {
+          console.log("성공", res);
+          this.data = res.data;
+        })
+        .catch((err) => {
+          console.error("실패", err);
+        });
+    },
+  },
+  mounted() {
+    this.controlData();
   },
 };
 </script>
