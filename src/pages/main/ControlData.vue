@@ -5,43 +5,59 @@
         <button :style="DeleteBtn">삭제</button>
       </div>
       <div :style="Contain">
-        <div :style="Head">
-          <div><input :style="Check" type="checkbox" /></div>
-          <div :style="Data">제어 데이터 식별자</div>
-          <div :style="Data">제어 실행 일자</div>
-          <div :style="Data">제어 실행 관리자</div>
-          <div :style="Data">수신 로봇 명</div>
-          <div :style="Data">정렬 데이터 개수</div>
-          <div :style="Data">정렬 데이터 방식</div>
-        </div>
-        <div :style="Line" />
-        <div
-          v-for="(controlData, i) in data.data"
-          :key="`data${i}`"
-          :style="Body"
+        <ag-grid-vue
+          :rowData="rowData"
+          :columnDefs="colDefs"
+          style="height: 500px"
         >
-          <div><input :style="Check" type="checkbox" /></div>
-          <div :style="Data">{{ controlData.controlId }}</div>
-          <div :style="Data">{{ controlData.controlCreatedAt }}</div>
-          <div :style="Data">{{ controlData.userId }}</div>
-          <div :style="Data">{{ controlData.robotName }}</div>
-          <div :style="Data">{{ controlData.controlAmount }}</div>
-          <div :style="Data">{{ controlData.controlDirection }}</div>
-        </div>
+        </ag-grid-vue>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+import { AgGridVue } from "ag-grid-vue3";
 import axios from "axios";
 
 export default {
+  name: "App",
+  components: {
+    AgGridVue,
+  },
+  setup() {
+    const rowData = ref([]);
+    const colDefs = ref([
+      { field: "controlAmount", width: 150 },
+      { field: "controlCreatedAt", width: 250 },
+      { field: "controlDirection", width: 200 },
+      { field: "controlId", width: 150 },
+      { field: "robotName", width: 260 },
+      { field: "userId", width: 260 },
+    ]);
+
+    onMounted(async () => {
+      try {
+        const response = await axios.get("lares/api/control/");
+        console.log(response.data);
+        if (Array.isArray(response.data.dataInfoList)) {
+          rowData.value = response.data.dataInfoList;
+        } else {
+          console.error("받은 데이터가 배열이 아닙니다.");
+          rowData.value = [];
+        }
+      } catch (error) {
+        console.error("데이터 불러오기 실패:", error);
+      }
+    });
+    return {
+      rowData,
+      colDefs,
+    };
+  },
   data() {
     return {
-      data: {
-        data: [],
-      },
       Container: {
         position: "absolute",
         top: 0,
@@ -83,7 +99,7 @@ export default {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center",
+        alignitems: "center",
         fontFamily: "GongGothicMedium",
         fontSize: "17px",
         margin: "0px 50px 0px 50px ",
@@ -91,9 +107,9 @@ export default {
       Body: {
         height: "76px",
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "robot",
         justifyContent: "space-between",
-        alignItems: "center",
+        alignitems: "center",
         fontFamily: "PretendardRegular",
         fontSize: "18px",
         margin: "0px 50px 0px 50px ",
@@ -104,22 +120,6 @@ export default {
         height: "20px",
       },
     };
-  },
-  methods: {
-    controlData() {
-      axios
-        .get("/lares/api/control/")
-        .then((res) => {
-          console.log("성공", res);
-          this.data = res.data;
-        })
-        .catch((err) => {
-          console.error("실패", err);
-        });
-    },
-  },
-  mounted() {
-    this.controlData();
   },
 };
 </script>
