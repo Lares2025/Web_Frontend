@@ -29,12 +29,12 @@ export default {
   setup() {
     const rowData = ref([]);
     const colDefs = ref([
-      { field: "controlAmount", width: 150 },
-      { field: "controlCreatedAt", width: 250 },
-      { field: "controlDirection", width: 200 },
-      { field: "controlId", width: 150 },
-      { field: "robotName", width: 260 },
-      { field: "userId", width: 260 },
+      { field: "controlAmount", sortable: true, width: 150 },
+      { field: "controlCreatedAt", sortable: true, width: 250 },
+      { field: "controlDirection", sortable: true, width: 200 },
+      { field: "controlId", sortable: true, width: 150 },
+      { field: "robotName", sortable: true, width: 260 },
+      { field: "userId", sortable: true, width: 260 },
     ]);
 
     onMounted(async () => {
