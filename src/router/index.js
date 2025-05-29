@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../pages/VueLogin.vue";
+import Login from "../pages/Login.vue";
 import Signin from "../pages/VueSignin.vue";
 import Send from "../pages/main/DataSend.vue";
 import Control from "../pages/main/ControlData.vue";

@@ -126,6 +126,7 @@ export default {
         })
         .then((res) => {
           console.log("성공", res);
+          this.$router.push("/Send");
         })
         .catch((res) => {
           console.error("실패", res);
