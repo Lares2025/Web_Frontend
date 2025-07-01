@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/lares": {
-        target: "https://wwwxsv19.com",
+        target: "https://lares.wwwxsv19.com",
         changeOrigin: true,
       },
     },
