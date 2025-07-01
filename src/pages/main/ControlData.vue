@@ -18,6 +18,7 @@
       <!-- 데이터가 없을 때 -->
       <div style="text-align: center">
         <div :style="Nodata">제어 내역 데이터가 존재하지 않습니다.</div>
+        <button :style="CreateBtn">제어 로봇 생성하기</button>
       </div>
     </div>
   </div>
@@ -105,6 +106,16 @@ export default {
         color: "#0c007b",
         fontSize: "20px",
         fontFamily: "GongGothicLight",
+        paddingBottom: "30px",
+      },
+      CreateBtn: {
+        padding: "20px 45px",
+        borderRadius: "12px",
+        color: "white",
+        backgroundColor: "#0c007b",
+        fontSize: "20px",
+        fontFamily: "PretendardBold",
+        cursor: "pointer",
       },
     };
   },
