@@ -1,6 +1,7 @@
 <template>
   <div :style="Container">
-    <div>
+    <div v-if="hasData">
+      <!-- 데이터 있을 때 -->
       <div :style="Delete">
         <button :style="DeleteBtn">삭제</button>
       </div>
@@ -9,15 +10,21 @@
           :rowData="rowData"
           :columnDefs="colDefs"
           style="height: 500px"
-        >
-        </ag-grid-vue>
+        />
+      </div>
+    </div>
+
+    <div v-else>
+      <!-- 데이터가 없을 때 -->
+      <div style="text-align: center">
+        <div :style="Nodata">제어 내역 데이터가 존재하지 않습니다.</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { AgGridVue } from "ag-grid-vue3";
 import axios from "axios";
 
@@ -37,6 +44,8 @@ export default {
       { field: "userId", sortable: true, width: 260 },
     ]);
 
+    const hasData = computed(() => rowData.value.length > 0);
+
     onMounted(async () => {
       try {
         const response = await axios.get("lares/api/control/");
@@ -49,11 +58,14 @@ export default {
         }
       } catch (error) {
         console.error("데이터 불러오기 실패:", error);
+        rowData.value = [];
       }
     });
+
     return {
       rowData,
       colDefs,
+      hasData,
     };
   },
   data() {
@@ -83,41 +95,16 @@ export default {
         marginTop: "80px",
         marginBottom: "30px",
       },
-      Line: {
-        width: "1276px",
-        height: "0.5px",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-      },
       Contain: {
         width: "1276px",
         height: "476px",
         border: "1px solid rgba(0, 0, 0, 0.5)",
         borderRadius: "12px",
       },
-      Head: {
-        height: "76px",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignitems: "center",
-        fontFamily: "GongGothicMedium",
-        fontSize: "17px",
-        margin: "0px 50px 0px 50px ",
-      },
-      Body: {
-        height: "76px",
-        display: "flex",
-        flexDirection: "robot",
-        justifyContent: "space-between",
-        alignitems: "center",
-        fontFamily: "PretendardRegular",
-        fontSize: "18px",
-        margin: "0px 50px 0px 50px ",
-      },
-      Data: { width: "140px" },
-      Check: {
-        width: "20px",
-        height: "20px",
+      Nodata: {
+        color: "#0c007b",
+        fontSize: "20px",
+        fontFamily: "GongGothicLight",
       },
     };
   },
