@@ -18,7 +18,23 @@
       <!-- 데이터 없을 때 -->
       <div style="text-align: center">
         <div :style="Nodata">배송 물품 데이터가 존재하지 않습니다.</div>
-        <button :style="CreateBtn">새 데이터 생성하기</button>
+        <button :style="CreateBtn" @click="openPopup">
+          새 데이터 생성하기
+        </button>
+      </div>
+    </div>
+
+    <!-- 팝업 -->
+    <div v-if="isPopupVisible" :style="PopupOverlay">
+      <div :style="PopupBox">
+        <div :style="PopupTitle">새 데이터 생성</div>
+        <div style="margin-top: 20px">
+          <p>여기에 새 데이터를 입력할 수 있는 폼이 들어갑니다.</p>
+        </div>
+        <div style="text-align: right; margin-top: 30px">
+          <button :style="PlusBtn" @click="closePopup">추가</button>
+          <button :style="CloseBtn" @click="closePopup">닫기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -49,6 +65,14 @@ export default {
 
     const hasData = computed(() => rowData.value.length > 0);
 
+    const isPopupVisible = ref(false);
+    const openPopup = () => {
+      isPopupVisible.value = true;
+    };
+    const closePopup = () => {
+      isPopupVisible.value = false;
+    };
+
     onMounted(async () => {
       try {
         const response = await axios.get("lares/api/order/");
@@ -69,6 +93,9 @@ export default {
       rowData,
       colDefs,
       hasData,
+      isPopupVisible,
+      openPopup,
+      closePopup,
     };
   },
   data() {
@@ -148,6 +175,53 @@ export default {
         fontSize: "20px",
         fontFamily: "PretendardBold",
         cursor: "pointer",
+      },
+      PopupOverlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+      },
+      PopupBox: {
+        width: "539px",
+        height: "155px",
+        backgroundColor: "white",
+        padding: "50px 80px",
+        borderRadius: "12px",
+        boxShadow: "0px 0px 10px rgba(0,0,0,0.3)",
+        fontFamily: "PretendardRegular",
+      },
+      PopupTitle: {
+        fontSize: "22px",
+        fontWeight: "bold",
+        marginBottom: "10px",
+        fontFamily: "PretendardBold",
+      },
+      PlusBtn: {
+        padding: "20px 45px",
+        color: "white",
+        backgroundColor: "#0C007B",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontSize: "20px",
+        fontFamily: "PretendardMedium",
+      },
+      CloseBtn: {
+        padding: "20px 45px",
+        color: "#818181",
+        backgroundColor: "#F6F6F6",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontSize: "20px",
+        fontFamily: "PretendardMedium",
       },
     };
   },
