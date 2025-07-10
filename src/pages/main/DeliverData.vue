@@ -27,12 +27,55 @@
     <!-- 팝업 -->
     <div v-if="isPopupVisible" :style="PopupOverlay">
       <div :style="PopupBox">
-        <div :style="PopupTitle">새 데이터 생성</div>
-        <div style="margin-top: 20px">
-          <p>여기에 새 데이터를 입력할 수 있는 폼이 들어갑니다.</p>
+        <!-- 첫 번째 줄 -->
+        <div style="display: flex; gap: 10px; margin-bottom: 15px">
+          <div style="display: flex; flex-direction: column">
+            <label :style="Label">*발신자 아이디</label>
+            <input :style="Input1" v-model="input1" placeholder="ex) 0.0_wji" />
+          </div>
+          <div style="display: flex; flex-direction: column">
+            <label :style="Label">*수신자 아이디</label>
+            <input :style="Input1" v-model="input2" placeholder="ex) 0.0_wji" />
+          </div>
         </div>
-        <div style="text-align: right; margin-top: 30px">
-          <button :style="PlusBtn" @click="closePopup">추가</button>
+        <!-- 두 번째 줄 -->
+        <div style="display: flex; gap: 10px; margin-bottom: 15px">
+          <div style="display: flex; flex-direction: column">
+            <label :style="Label">*주문 상품 명</label>
+            <input
+              :style="Input1"
+              v-model="input3"
+              placeholder="ex) Raspberry Pi"
+            />
+          </div>
+          <div style="display: flex; flex-direction: column">
+            <label :style="Label">*주문 상품 수량</label>
+            <input :style="Input1" v-model="input4" placeholder="ex) 3" />
+          </div>
+        </div>
+
+        <!-- 세 번째 줄 -->
+        <div style="margin-bottom: 15px; display: flex; flex-direction: column">
+          <label :style="Label">송장 메모</label>
+          <input
+            :style="Input2"
+            v-model="input5"
+            placeholder="배송 전 미리 연락주세요"
+          />
+        </div>
+        <div style="margin-bottom: 15px; display: flex; flex-direction: column">
+          <label :style="Label">배송 일자</label>
+          <input :style="Input3" v-model="input6" type="date" />
+        </div>
+        <!-- 버튼 영역 -->
+        <div style="text-align: center; margin-top: 30px">
+          <button
+            :style="PlusBtn"
+            @click="addMessage"
+            style="margin-right: 10px"
+          >
+            추가
+          </button>
           <button :style="CloseBtn" @click="closePopup">닫기</button>
         </div>
       </div>
@@ -66,6 +109,12 @@ export default {
     const hasData = computed(() => rowData.value.length > 0);
 
     const isPopupVisible = ref(false);
+    const input1 = ref("");
+    const input2 = ref("");
+    const input3 = ref("");
+    const input4 = ref("");
+    const input5 = ref("");
+
     const openPopup = () => {
       isPopupVisible.value = true;
     };
@@ -73,10 +122,25 @@ export default {
       isPopupVisible.value = false;
     };
 
+    const addMessage = () => {
+      console.log(
+        "입력값:",
+        input1.value,
+        input2.value,
+        input3.value,
+        input4.value,
+        input5.value
+      );
+      closePopup();
+    };
+
     onMounted(async () => {
       try {
-        const response = await axios.get("lares/api/order/");
-        console.log(response.data);
+        const response = await axios.get("lares/api/order/", {
+          headers: {
+            Authorization: `Bearer ${yourToken}`,
+          },
+        });
         if (Array.isArray(response.data.orderInfoList)) {
           rowData.value = response.data.orderInfoList;
         } else {
@@ -96,6 +160,12 @@ export default {
       isPopupVisible,
       openPopup,
       closePopup,
+      addMessage,
+      input1,
+      input2,
+      input3,
+      input4,
+      input5,
     };
   },
   data() {
@@ -125,41 +195,11 @@ export default {
         marginTop: "80px",
         marginBottom: "30px",
       },
-      Line: {
-        width: "1276px",
-        height: "0.5px",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-      },
       Contain: {
         width: "1276px",
         height: "476px",
         border: "1px solid rgba(0, 0, 0, 0.5)",
         borderRadius: "12px",
-      },
-      Head: {
-        height: "76px",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        fontFamily: "GongGothicMedium",
-        fontSize: "17px",
-        margin: "0px 50px 0px 50px",
-      },
-      Body: {
-        height: "76px",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        fontFamily: "PretendardRegular",
-        fontSize: "18px",
-        margin: "0px 50px 0px 50px",
-      },
-      Data: { width: "140px" },
-      Check: {
-        width: "20px",
-        height: "20px",
       },
       Nodata: {
         color: "#0c007b",
@@ -189,39 +229,64 @@ export default {
         zIndex: 1000,
       },
       PopupBox: {
-        width: "539px",
-        height: "155px",
+        width: "300px",
         backgroundColor: "white",
-        padding: "50px 80px",
+        padding: "50px 90px",
         borderRadius: "12px",
         boxShadow: "0px 0px 10px rgba(0,0,0,0.3)",
         fontFamily: "PretendardRegular",
       },
-      PopupTitle: {
-        fontSize: "22px",
-        fontWeight: "bold",
-        marginBottom: "10px",
-        fontFamily: "PretendardBold",
-      },
       PlusBtn: {
-        padding: "20px 45px",
+        padding: "15px 30px",
         color: "white",
         backgroundColor: "#0C007B",
         border: "none",
         borderRadius: "8px",
         cursor: "pointer",
-        fontSize: "20px",
+        fontSize: "18px",
         fontFamily: "PretendardMedium",
       },
       CloseBtn: {
-        padding: "20px 45px",
+        padding: "15px 30px",
         color: "#818181",
         backgroundColor: "#F6F6F6",
         border: "none",
         borderRadius: "8px",
         cursor: "pointer",
-        fontSize: "20px",
+        fontSize: "18px",
         fontFamily: "PretendardMedium",
+      },
+      Label: {
+        fontWeight: "bold",
+        marginBottom: "5px",
+        textAlign: "left",
+        fontSize: "15px",
+        fontFamily: "PretendardMedium",
+      },
+      Input1: {
+        width: "100%",
+        padding: "12px 3px",
+        borderRadius: "10px",
+        border: "1px solid #CECCE5",
+        fontSize: "15px",
+        fontFamily: "PretendardRegular",
+        backgroundColor: "#F6F6F6",
+      },
+      Input2: {
+        width: "100%",
+        padding: "12px 10px",
+        borderRadius: "10px",
+        border: "1px solid #ccc",
+        fontSize: "15px",
+        fontFamily: "PretendardRegular",
+      },
+      Input3: {
+        width: "40%",
+        padding: "12px 10px",
+        borderRadius: "10px",
+        border: "1px solid #ccc",
+        fontSize: "15px",
+        fontFamily: "PretendardRegular",
       },
     };
   },
