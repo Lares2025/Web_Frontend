@@ -2,9 +2,12 @@
   <div :style="Container">
     <div v-if="hasData">
       <!-- 데이터 있을 때 -->
-      <div :style="Delete">
+      <div :style="BtnContainer">
+        <button :style="AddBtn" @click="openPopup">신규 추가</button>
+        <button :style="FixBtn">수정</button>
         <button :style="DeleteBtn">삭제</button>
       </div>
+
       <div :style="Contain">
         <ag-grid-vue
           :rowData="rowData"
@@ -340,9 +343,34 @@ export default {
         justifyContent: "center",
         alignItems: "center",
       },
-      Delete: {
+      BtnContainer: {
         display: "flex",
         justifyContent: "end",
+        gap: "20px",
+      },
+      AddBtn: {
+        padding: "15px 35px",
+        backgroundColor: "#0C007B",
+        color: "white",
+        border: "none",
+        borderRadius: "12px",
+        fontSize: "18px",
+        fontFamily: "PretendardMedium",
+        marginTop: "80px",
+        marginBottom: "30px",
+        cursor: "pointer",
+      },
+      FixBtn: {
+        padding: "15px 35px",
+        backgroundColor: "#818181",
+        color: "#C5C5C5",
+        border: "none",
+        borderRadius: "12px",
+        fontSize: "18px",
+        fontFamily: "PretendardMedium",
+        marginTop: "80px",
+        marginBottom: "30px",
+        cursor: "pointer",
       },
       DeleteBtn: {
         padding: "15px 35px",
@@ -354,6 +382,7 @@ export default {
         fontFamily: "PretendardMedium",
         marginTop: "80px",
         marginBottom: "30px",
+        cursor: "pointer",
       },
       Contain: {
         width: "1276px",
