@@ -113,7 +113,7 @@ export default {
       { field: "robotId", headerName: "로봇ID", width: 120 },
       { field: "robotIp", headerName: "IP", width: 400 },
       { field: "robotName", headerName: "로봇명", width: 400 },
-      { field: "robotCreatedAt", headerName: "생성일", width: 400 },
+      { field: "robotCreatedAt", headerName: "생성일", width: 300 },
     ];
 
     const colDefs = ref(userColDefs);
