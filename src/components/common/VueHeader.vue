@@ -1,6 +1,6 @@
 <template>
   <header class="header-container">
-    <div class="logo">LARES</div>
+    <div class="logo" @click="goToHome">LARES</div>
     <div class="pages">
       <div
         v-for="(page, index) in pageList"
@@ -11,7 +11,7 @@
         {{ page.name }}
       </div>
     </div>
-    <div class="logout">로그아웃</div>
+    <div class="logout" @click="logout">로그아웃</div>
   </header>
 </template>
 
@@ -38,6 +38,20 @@ export default {
     updateSelectedPageByPath(path) {
       const foundIndex = this.pageList.findIndex((page) => page.path === path);
       this.selectedPage = foundIndex !== -1 ? foundIndex : 0;
+    },
+    logout() {
+      // localStorage에서 토큰 제거
+      localStorage.removeItem("accessToken");
+
+      // 로그인 페이지로 리다이렉트
+      this.$router.push("/");
+
+      // 로그아웃 완료 메시지 (선택사항)
+      console.log("로그아웃이 완료되었습니다.");
+    },
+    goToHome() {
+      this.$router.push("/send");
+      this.selectedPage = 0;
     },
   },
   mounted() {
@@ -69,6 +83,7 @@ export default {
   color: #0c007b;
   font-size: 30px;
   font-family: GongGothicBold;
+  cursor: pointer;
 }
 
 .pages {
@@ -94,5 +109,6 @@ export default {
   font-size: 22px;
   font-family: PretendardMedium;
   color: #818181;
+  cursor: pointer;
 }
 </style>
