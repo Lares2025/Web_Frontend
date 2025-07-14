@@ -109,6 +109,7 @@ export default {
         fontSize: "20px",
         fontFamily: "PretendardBold",
         border: "none",
+        cursor: "pointer",
       },
     };
   },
@@ -125,11 +126,33 @@ export default {
           headers: {},
         })
         .then((res) => {
-          console.log("성공", res);
+          console.log("로그인 성공 응답 전체:", res);
+          console.log("응답 데이터:", res.data);
+          console.log("응답 헤더:", res.headers);
+
+          // 다양한 토큰 키 이름 시도
+          let token = null;
+          if (res.data.accessToken) {
+            token = res.data.accessToken;
+          } else if (res.data.token) {
+            token = res.data.token;
+          } else if (res.data.jwt) {
+            token = res.data.jwt;
+          } else if (res.headers.authorization) {
+            token = res.headers.authorization.replace("Bearer ", "");
+          }
+
+          if (token) {
+            localStorage.setItem("accessToken", token);
+            console.log("토큰 저장됨:", token);
+          } else {
+            console.log("토큰을 찾을 수 없음. 응답 구조:", res.data);
+          }
+
           this.$router.push("/Send");
         })
         .catch((res) => {
-          console.error("실패", res);
+          console.error("로그인 실패:", res);
         });
     },
   },
