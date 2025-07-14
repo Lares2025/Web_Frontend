@@ -59,7 +59,11 @@
                 <span> 송신자 아이디</span>
               </div>
             </div>
-            <input :style="Input" v-model="input1" placeholder="ex) 0.0_wji" />
+            <input
+              :style="Input"
+              v-model="input1"
+              placeholder="ex) kangsiwoo"
+            />
           </div>
           <!-- 두 번째 줄 -->
           <div style="display: flex; gap: 30px; margin-bottom: 15px">
@@ -171,6 +175,7 @@
 import { ref, onMounted, computed, nextTick } from "vue";
 import { AgGridVue } from "ag-grid-vue3";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default {
   name: "App",
@@ -180,6 +185,77 @@ export default {
   setup() {
     const rowData = ref([]);
     const selectedRows = ref([]);
+
+    // JWT 토큰에서 사용자 ID 추출하는 함수
+    const getUserIdFromToken = () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+          console.log("토큰이 없습니다.");
+          return null;
+        }
+
+        console.log("원본 토큰:", token);
+
+        const decoded = jwtDecode(token);
+        console.log("디코딩된 토큰:", decoded);
+        console.log(
+          "토큰 만료 시간:",
+          decoded.exp ? new Date(decoded.exp * 1000) : "없음"
+        );
+        console.log("현재 시간:", new Date());
+
+        // 토큰 만료 확인
+        if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+          console.log("토큰이 만료되었습니다.");
+          localStorage.removeItem("accessToken");
+          return null;
+        }
+
+        // 토큰 구조에 따라 userId, sub, user_id 등 다양한 필드명 시도
+        const userId =
+          decoded.userId || decoded.sub || decoded.user_id || decoded.id;
+        console.log("추출된 사용자 ID:", userId);
+        return userId;
+      } catch (error) {
+        console.error("토큰 디코딩 실패:", error);
+        console.error("토큰 디코딩 에러 상세:", error.message);
+        localStorage.removeItem("accessToken");
+        return null;
+      }
+    };
+
+    // 토큰 유효성 검사 함수
+    const validateToken = () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        console.log("토큰이 없습니다.");
+        return false;
+      }
+
+      try {
+        const decoded = jwtDecode(token);
+        console.log("토큰 검증 - 디코딩된 토큰:", decoded);
+        console.log(
+          "토큰 검증 - 만료 시간:",
+          decoded.exp ? new Date(decoded.exp * 1000) : "없음"
+        );
+        console.log("토큰 검증 - 현재 시간:", new Date());
+
+        if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+          console.log("토큰이 만료되었습니다.");
+          localStorage.removeItem("accessToken");
+          return false;
+        }
+
+        console.log("토큰이 유효합니다.");
+        return true;
+      } catch (error) {
+        console.error("토큰 검증 실패:", error);
+        localStorage.removeItem("accessToken");
+        return false;
+      }
+    };
 
     const colDefs = ref([
       {
@@ -215,7 +291,6 @@ export default {
     const isEditMode = ref(false);
     const editingOrderId = ref(null);
     const input1 = ref("");
-    const input2 = ref("");
     const input3 = ref("");
     const input4 = ref("");
     const input5 = ref("");
@@ -257,8 +332,7 @@ export default {
       isEditMode.value = true;
       editingOrderId.value = selectedRow.orderId;
 
-      input1.value = selectedRow.sendUserId || "";
-      input2.value = selectedRow.receiveUserId || "";
+      input1.value = selectedRow.receiveUserId || "";
 
       if (selectedRow.orderItem) {
         const itemParts = selectedRow.orderItem.split("/");
@@ -327,7 +401,6 @@ export default {
 
     const clearInputs = () => {
       input1.value = "";
-      input2.value = "";
       input3.value = "";
       input4.value = "";
       input5.value = "";
@@ -335,52 +408,96 @@ export default {
     };
 
     const addMessage = async () => {
-      if (
-        !input1.value ||
-        !input2.value ||
-        !input3.value ||
-        !input4.value ||
-        !input6.value
-      ) {
+      if (!input1.value || !input3.value || !input4.value || !input6.value) {
         alert("필수 항목을 모두 입력해주세요.");
         return;
       }
 
-      const token = localStorage.getItem("accessToken");
+      let token = localStorage.getItem("accessToken");
       console.log("저장된 토큰:", token);
+      console.log("토큰 길이:", token ? token.length : 0);
+      console.log(
+        "토큰 시작 부분:",
+        token ? token.substring(0, 20) + "..." : "없음"
+      );
 
       if (!token) {
-        alert("로그인이 필요합니다.");
+        alert("로그인이 필요합니다. 다시 로그인해주세요.");
+        window.location.href = "/";
         return;
       }
 
+      // 토큰 유효성 검사 (신규 추가 시에만) - 임시로 비활성화
+      // if (!isEditMode.value && !validateToken()) {
+      //   alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+      //   window.location.href = "/";
+      //   return;
+      // }
+
+      // 토큰에서 발신자 ID 추출 (신규 추가 시에만) - 임시로 하드코딩
+      let sendUserId = null;
+      if (!isEditMode.value) {
+        // sendUserId = getUserIdFromToken();
+        // if (!sendUserId) {
+        //   alert(
+        //     "토큰에서 사용자 정보를 가져올 수 없습니다. 다시 로그인해주세요."
+        //   );
+        //   window.location.href = "/";
+        //   return;
+        // }
+        sendUserId = "test_user"; // 임시로 하드코딩
+      }
+
       try {
-        const orderData = {
-          sendUserId: input1.value,
-          receiveUserId: input2.value,
-          orderItem: input3.value,
-          orderAmount: parseInt(input4.value),
-          orderMemo: input5.value || "",
-          deliveryDate: input6.value.replace(/-/g, ""),
-        };
+        const orderData = isEditMode.value
+          ? {
+              // 수정 모드: 백엔드 요구사항에 맞춰 sendUserId 제외
+              receiveUserId: input1.value,
+              orderItem: input3.value,
+              orderAmount: parseInt(input4.value),
+              orderMemo: input5.value || "",
+              deliveryDate: input6.value.replace(/-/g, ""),
+            }
+          : {
+              // 추가 모드: sendUserId 포함
+              sendUserId: sendUserId,
+              receiveUserId: input1.value,
+              orderItem: input3.value,
+              orderAmount: parseInt(input4.value),
+              orderMemo: input5.value || "",
+              deliveryDate: input6.value.replace(/-/g, ""),
+            };
 
         console.log("전송할 데이터:", orderData);
 
         let response;
         if (isEditMode.value && editingOrderId.value) {
           // 수정 모드 - PATCH 요청 사용
+          console.log("수정 요청 - 토큰:", token);
+          console.log("수정 요청 - 주문ID:", editingOrderId.value);
+          console.log("수정 요청 - 데이터:", orderData);
+          console.log("수정 요청 - 헤더:", {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          });
+
+          // 임시로 토큰 없이 테스트
+          console.log("토큰 없이 API 호출 테스트");
           response = await axios.patch(
             `lares/api/order/${editingOrderId.value}`,
             orderData,
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                // Authorization: `Bearer ${token}`, // 임시로 주석 처리
                 "Content-Type": "application/json",
               },
             }
           );
         } else {
           // 추가 모드
+          console.log("추가 요청 - 토큰:", token);
+          console.log("추가 요청 - 데이터:", orderData);
+
           response = await axios.post("lares/api/order/", orderData, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -414,7 +531,12 @@ export default {
             }`
           );
         } else if (error.response?.status === 401) {
-          alert("권한이 없습니다. 다시 로그인해주세요.");
+          console.log("401 에러 - 토큰 만료 또는 유효하지 않음");
+          localStorage.removeItem("accessToken");
+          alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+          // 로그인 페이지로 리다이렉트
+          window.location.href = "/";
+          return;
         } else if (error.response?.status === 403) {
           alert("접근 권한이 없습니다.");
         } else if (error.response?.status === 404) {
@@ -438,12 +560,15 @@ export default {
     };
 
     const confirmDelete = async () => {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        alert("로그인이 필요합니다.");
+      // 토큰 유효성 검사
+      if (!validateToken()) {
+        alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
         isDeletePopupVisible.value = false;
+        window.location.href = "/";
         return;
       }
+
+      const token = localStorage.getItem("accessToken");
 
       try {
         const deletePromises = selectedRows.value.map(async (row) => {
@@ -547,14 +672,15 @@ export default {
 
     const loadData = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-        console.log("저장된 토큰:", token);
-
-        if (!token) {
-          console.log("토큰이 없습니다.");
+        // 토큰 유효성 검사
+        if (!validateToken()) {
+          console.log("토큰이 유효하지 않습니다.");
           rowData.value = [];
           return;
         }
+
+        const token = localStorage.getItem("accessToken");
+        console.log("저장된 토큰:", token);
 
         const response = await axios.get("lares/api/order/", {
           headers: {
@@ -577,6 +703,9 @@ export default {
         if (error.response?.status === 401) {
           console.log("인증 실패 - 토큰이 유효하지 않음");
           localStorage.removeItem("accessToken");
+          alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+          window.location.href = "/";
+          return;
         }
 
         rowData.value = [];
@@ -606,7 +735,6 @@ export default {
       isEditMode,
       isDeletePopupVisible,
       input1,
-      input2,
       input3,
       input4,
       input5,
