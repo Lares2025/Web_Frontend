@@ -23,8 +23,18 @@
 
     <div v-else>
       <!-- 데이터가 없을 때 -->
-      <div style="text-align: center">
-        <div :style="Nodata">제어 내역 데이터가 존재하지 않습니다.</div>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 500px;
+        "
+      >
+        <div v-if="!isAdmin" :style="Nodata">
+          어드민 계정으로 로그인해주시길 바랍니다.
+        </div>
+        <div v-else :style="Nodata">제어 내역 데이터가 존재하지 않습니다.</div>
       </div>
     </div>
 
@@ -71,6 +81,7 @@ export default {
     const rowData = ref([]);
     const selectedRows = ref([]);
     const isDeletePopupVisible = ref(false);
+    const isAdmin = ref(false);
 
     const colDefs = ref([
       {
@@ -178,6 +189,9 @@ export default {
     };
 
     onMounted(async () => {
+      const userRole = localStorage.getItem("userRole");
+      console.log("userRole in localStorage:", userRole); // 디버깅용
+      isAdmin.value = userRole && userRole.trim().toLowerCase() === "admin";
       await loadData();
     });
 
@@ -192,6 +206,7 @@ export default {
       confirmDelete,
       cancelDelete,
       getDeleteBtnStyle,
+      isAdmin,
     };
   },
   data() {

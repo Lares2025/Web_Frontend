@@ -33,8 +33,15 @@
 
     <div v-else>
       <!-- 데이터 없을 때 -->
-      <div style="text-align: center">
-        <div :style="Nodata">유저 데이터가 존재하지 않습니다.</div>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 500px;
+        "
+      >
+        <div :style="Nodata">어드민 계정으로 로그인해주시길 바랍니다.</div>
       </div>
     </div>
 
