@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../pages/Login.vue";
 import Signin from "../pages/VueSignin.vue";
+import Dashboard from "../pages/main/Dashboard.vue";
 import Send from "../pages/main/DataSend.vue";
 import Control from "../pages/main/ControlData.vue";
 import Deliver from "../pages/main/DeliverData.vue";
@@ -16,6 +17,11 @@ const routes = [
     path: "/Signin",
     name: "Signin",
     component: Signin,
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
   },
   {
     path: "/Send",
