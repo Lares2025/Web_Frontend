@@ -1,57 +1,79 @@
 <template>
   <div class="dashboard-container">
-    <!-- 요약 정보 -->
-    <div class="summary-row">
-      <div class="summary-item">
-        <span class="summary-label">오늘 작업</span>
-        <span class="summary-value">3건</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-label">오늘 배송</span>
-        <span class="summary-value">8건</span>
-      </div>
-    </div>
-
     <div class="dashboard-grid">
-      <!-- 로봇 상태 카드 -->
-      <div class="dashboard-card">
-        <div class="card-header">
-          <h3>로봇 상태</h3>
-          <div class="status-indicator online"></div>
-        </div>
-        <div class="card-content">
-          <div class="status-item">
-            <span class="label">연결 상태:</span>
-            <span class="value connected">연결됨</span>
+      <div class="dashboard-row">
+        <!-- 로봇 상태 카드 -->
+        <div class="dashboard-card" style="height: 250px">
+          <div class="card-header">
+            <h3>로봇 상태</h3>
+            <div class="status-indicator online"></div>
           </div>
+          <div class="card-content">
+            <div class="status-item">
+              <span class="label">연결 상태:</span>
+              <span class="value connected">연결됨</span>
+            </div>
 
-          <div class="status-item">
-            <span class="label">현재 위치:</span>
-            <span class="value">A구역</span>
+            <div class="status-item">
+              <span class="label">현재 위치:</span>
+              <span class="value">A구역</span>
+            </div>
+
+            <!-- 요약 정보를 로봇 상태 카드 내부로 이동 -->
+            <div class="summary-grid">
+              <div class="summary-item">
+                <span class="summary-label">오늘 작업</span>
+                <span class="summary-value">3건</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">오늘 배송</span>
+                <span class="summary-value">8건</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">택배 불량 접수건</span>
+                <span class="summary-value">2건</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">불량 회수 건</span>
+                <span class="summary-value">1건</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 작업 현황 카드 (원 그래프) -->
+        <div class="dashboard-card work-status-card" style="height: 250px">
+          <div class="card-header">
+            <h3>작업 현황</h3>
+          </div>
+          <div class="card-content" style="height: 200px; margin-top: 10px">
+            <PieChart
+              :data="[3, 12, 5]"
+              :labels="['진행 중', '완료', '대기']"
+            />
           </div>
         </div>
       </div>
-
-      <!-- 작업 현황 카드 (원 그래프) -->
-      <div class="dashboard-card work-status-card">
-        <div class="card-header">
-          <h3>작업 현황</h3>
+      <div class="dashboard-row">
+        <!-- 배송 현황 카드 (꺾은선 그래프) -->
+        <div class="dashboard-card wide-card">
+          <div class="card-header">
+            <h3>배송 현황</h3>
+          </div>
+          <div class="card-content" style="height: 180px; margin-top: 10px">
+            <LineChart
+              :data="[8, 45, 180]"
+              :labels="['오늘', '이번 주', '이번 달']"
+            />
+          </div>
         </div>
-        <div class="card-content" style="height: 200px">
-          <PieChart :data="[3, 12, 5]" :labels="['진행 중', '완료', '대기']" />
-        </div>
-      </div>
-
-      <!-- 배송 현황 카드 (꺾은선 그래프) -->
-      <div class="dashboard-card">
-        <div class="card-header">
-          <h3>배송 현황</h3>
-        </div>
-        <div class="card-content" style="height: 200px">
-          <LineChart
-            :data="[8, 45, 180]"
-            :labels="['오늘', '이번 주', '이번 달']"
-          />
+        <!-- 불량 현황 카드 (막대그래프) -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3>불량 접수 및 회수</h3>
+          </div>
+          <div class="card-content" style="height: 200px; margin-top: 20px">
+            <BarChart :data="[2, 1]" :labels="['불량 접수건', '불량 회수건']" />
+          </div>
         </div>
       </div>
     </div>
@@ -61,16 +83,17 @@
 <script>
 import PieChart from "@/components/common/PieChart.vue";
 import LineChart from "@/components/common/LineChart.vue";
+import BarChart from "@/components/common/BarChart.vue";
 
 export default {
   name: "Dashboard",
-  components: { PieChart, LineChart },
+  components: { PieChart, LineChart, BarChart },
 };
 </script>
 
 <style scoped>
 .dashboard-container {
-  padding: 120px 40px 40px;
+  padding: 70px 40px 40px;
   max-width: 1200px;
   margin: 0 auto;
   overflow: hidden;
@@ -91,42 +114,59 @@ export default {
   font-family: PretendardMedium;
 }
 
-/* 요약 정보 스타일 */
-.summary-row {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  margin-bottom: 50px;
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 0px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
 }
 .summary-item {
   background: #f5f6fa;
-  border-radius: 8px;
-  padding: 16px 32px;
+  border-radius: 6px;
+  padding: 8px 16px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 .summary-label {
   display: block;
   color: #888;
-  font-size: 14px;
+  font-size: 11px;
   margin-bottom: 4px;
 }
 .summary-value {
   color: #0c007b;
-  font-size: 22px;
+  font-size: 16px;
   font-family: PretendardBold;
 }
 
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 24px;
-  margin-top: 50px;
+  margin-top: 30px;
+}
+.dashboard-row {
+  display: flex;
+  gap: 24px;
+}
+.dashboard-row > .dashboard-card {
+  flex: 1 1 0;
+}
+.dashboard-row > .dashboard-card.wide-card {
+  flex: 2 1 0;
+}
+@media (max-width: 900px) {
+  .dashboard-row {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 .dashboard-card {
   background: white;
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
 }
@@ -134,7 +174,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 .card-header h3 {
   color: #0c007b;
@@ -201,9 +241,9 @@ export default {
   .dashboard-container {
     padding: 100px 10px 10px;
   }
-  .summary-row {
-    flex-direction: column;
-    gap: 12px;
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
   .dashboard-grid {
     grid-template-columns: 1fr;

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Line :data="chartData" :options="chartOptions" />
+  <div style="height: 170px">
+    <Line :data="chartData" :options="chartOptions" :height="170" />
     <div class="line-legend">
       <div v-for="(label, i) in labels" :key="i" class="line-legend-item">
         <span
@@ -50,6 +50,7 @@ const chartData = {
 };
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: { display: false },
   },

@@ -119,6 +119,7 @@ export default {
 .data-send-container {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .center-wrapper {
@@ -126,9 +127,10 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: calc(100%);
   overflow: hidden;
   gap: 64px;
+  margin-top: 30px;
 }
 
 /* 이미지 박스 스타일 */
@@ -137,8 +139,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 350px;
-  height: 278px;
+  width: 700px;
+  height: 500px;
   border: 1px solid #cecce5;
   border-radius: 15px;
   background: #fff;
@@ -147,7 +149,7 @@ export default {
 }
 
 .load-btn {
-  width: 120px;
+  width: 300px;
   height: 40px;
   border-radius: 8px;
   border: none;
@@ -164,8 +166,8 @@ export default {
 }
 
 .img-container {
-  width: 300px;
-  height: 180px;
+  width: 600px;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;

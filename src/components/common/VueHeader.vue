@@ -49,7 +49,7 @@
 export default {
   data() {
     return {
-      selectedPage: "dashboard",
+      selectedPage: "send", // 기본값을 "send"로 변경
       selectedSubmenu: "",
       showSubmenu: false,
       submenuList: [
@@ -102,8 +102,8 @@ export default {
       console.log("로그아웃이 완료되었습니다.");
     },
     goToHome() {
-      this.$router.push("/dashboard");
-      this.selectedPage = "dashboard";
+      this.$router.push("/send");
+      this.selectedPage = "send";
       this.selectedSubmenu = "";
     },
   },
@@ -175,7 +175,7 @@ export default {
   z-index: 1001;
   display: flex;
   flex-direction: row;
-  padding: 8px 0;
+  padding: 8px 10px;
 }
 
 .submenu-item {
